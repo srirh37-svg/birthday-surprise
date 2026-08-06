@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Special Birthday Experience</title>
+  <meta name="description" content="A luxury interactive birthday surprise story experience.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Great+Vibes&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: {
+              300: '#fde68a',
+              400: '#facc15',
+              500: '#eab308',
+              600: '#ca8a04',
+              glow: '#ffd700'
+            },
+            dark: {
+              base: '#080511',
+              card: '#120b24',
+              accent: '#1e1338'
+            }
+          },
+          fontFamily: {
+            serif: ['Cormorant Garamond', 'serif'],
+            sans: ['Outfit', 'sans-serif'],
+            handwriting: ['Great Vibes', 'cursive']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body class="bg-dark-base text-white overflow-x-hidden antialiased select-none font-sans min-h-screen">
+
+  <!-- Canvas for Ambient Star/Heart/Blob Particles -->
+  <canvas id="particle-canvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+  <!-- Audio Controls Overlay -->
+  <header
+    class="fixed top-6 right-6 z-50 flex items-center gap-3 bg-white/10 backdrop-blur-md px-4 py-2 rounded-full border border-white/15 shadow-xl">
+    <button id="audio-play-pause" aria-label="Play or Pause Audio"
+      class="text-gold-300 hover:text-white transition-colors duration-200 p-1 flex items-center justify-center">
+      <i data-lucide="play" id="audio-play-icon" class="w-5 h-5"></i>
+    </button>
+    <button id="audio-toggle" aria-label="Toggle Mute"
+      class="text-gold-300 hover:text-white transition-colors duration-200 p-1 flex items-center justify-center">
+      <i data-lucide="volume-2" id="audio-icon" class="w-5 h-5"></i>
+    </button>
+    <input id="audio-volume" type="range" min="0" max="1" step="0.05" value="0.5" aria-label="Volume Control"
+      class="w-16 accent-amber-400 cursor-pointer h-1.5 rounded-lg bg-white/20">
+  </header>
+
+  <!-- Main Container -->
+  <main id="app-container" class="relative z-10 min-h-screen w-full flex flex-col justify-center items-center">
+
+    <!-- STAGE 1: WELCOME SECTION -->
+    <section id="stage-welcome"
+      class="stage-section active flex flex-col items-center justify-center min-h-screen w-full px-4 text-center relative overflow-hidden">
+
+      <!-- Subtle Background Glow Orbs -->
+      <div
+        class="glow-orb orb-1 absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full bg-purple-900/30 blur-3xl pointer-events-none">
+      </div>
+      <div
+        class="glow-orb orb-2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-amber-500/10 blur-[100px] pointer-events-none">
+      </div>
+
+      <!-- Welcome Content Container -->
+      <div class="relative z-10 flex flex-col items-center max-w-xl mx-auto space-y-8">
+
+        <!-- Animated Title Header -->
+        <div class="welcome-header space-y-3">
+          <span
+            class="inline-block text-xs uppercase tracking-[0.3em] text-gold-400 font-semibold px-4 py-1.5 rounded-full bg-gold-400/10 border border-gold-400/20 backdrop-blur-sm">
+            Interactive Experience
+          </span>
+          <h1 id="welcome-title"
+            class="text-4xl sm:text-5xl md:text-6xl font-serif font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-300 to-amber-200 drop-shadow-sm">
+            A special delivery awaits...
+          </h1>
+          <p id="welcome-recipient" class="text-lg sm:text-xl text-purple-200/80 font-light italic">
+            For <span class="recipient-name font-semibold text-gold-300 not-italic">Alex</span>
+          </p>
+        </div>
+
+        <!-- 3D Luxury Gift Box Interactive Area -->
+        <div class="gift-wrapper cursor-pointer mt-12 mb-8 group relative" id="gift-box-trigger" role="button"
+          tabindex="0" aria-label="Tap to open the birthday surprise gift box">
+
+          <!-- Light Rays Burst effect behind box -->
+          <div
+            class="light-rays absolute inset-0 bg-gradient-to-t from-amber-400/0 via-gold-400/30 to-amber-300/0 rounded-full blur-2xl opacity-0 scale-50 transition-all duration-700 pointer-events-none group-hover:opacity-60 group-hover:scale-125">
+          </div>
+
+          <!-- 3D Gift Box -->
+          <div
+            class="gift-box relative w-48 h-48 sm:w-56 sm:h-56 transform-preserve-3d transition-transform duration-500">
+            <!-- Box Lid -->
+            <div
+              class="gift-lid absolute -top-4 -left-2 w-[calc(100%+16px)] h-14 bg-gradient-to-r from-amber-700 via-amber-600 to-amber-800 rounded-lg shadow-2xl border-b border-amber-400/40 z-20 transition-transform duration-500 flex items-center justify-center">
+              <div
+                class="ribbon-v absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-8 bg-gradient-to-b from-red-600 via-red-500 to-red-700 shadow-md">
+              </div>
+              <div
+                class="gift-bow absolute -top-8 left-1/2 -translate-x-1/2 w-16 h-10 flex justify-center items-center">
+                <div class="bow-left w-7 h-8 bg-red-600 rounded-full border border-amber-300/40 -rotate-45 shadow-lg">
+                </div>
+                <div
+                  class="bow-right w-7 h-8 bg-red-600 rounded-full border border-amber-300/40 rotate-45 shadow-lg -ml-2">
+                </div>
+                <div
+                  class="bow-center absolute w-4 h-4 bg-amber-400 rounded-full shadow-md z-10 border border-amber-200">
+                </div>
+              </div>
+            </div>
+
+            <!-- Box Body -->
+            <div
+              class="gift-body w-full h-full bg-gradient-to-b from-amber-800 via-amber-900 to-amber-950 rounded-b-xl shadow-2xl border border-amber-500/30 relative overflow-hidden flex items-center justify-center">
+              <!-- Box Ribbons -->
+              <div
+                class="ribbon-v absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-8 bg-gradient-to-b from-red-600 via-red-500 to-red-700 shadow-inner">
+              </div>
+              <div
+                class="ribbon-h absolute left-0 right-0 top-1/2 -translate-y-1/2 h-8 bg-gradient-to-r from-red-600 via-red-500 to-red-700 shadow-inner">
+              </div>
+
+              <!-- Inner Magic Glow (Visible when lid opens) -->
+              <div
+                class="box-glow absolute inset-0 bg-gradient-radial from-amber-300 via-gold-400 to-transparent opacity-0 transition-opacity duration-300 pointer-events-none">
+              </div>
+            </div>
+
+            <!-- Sparkle Accents around box -->
+            <div class="sparkle s1 absolute -top-2 -left-4 text-gold-300 animate-pulse">✦</div>
+            <div class="sparkle s2 absolute -bottom-2 -right-4 text-gold-400 animate-pulse delay-300">✦</div>
+            <div class="sparkle s3 absolute top-1/2 -right-6 text-amber-200 animate-pulse delay-700">✧</div>
+          </div>
+
+          <!-- Subtle Glow Floor Reflection -->
+          <div
+            class="gift-shadow w-40 h-6 mx-auto mt-4 rounded-full bg-amber-500/20 blur-md transition-all duration-500 group-hover:bg-amber-400/40 group-hover:scale-110">
+          </div>
+        </div>
+
+        <!-- Call to Action Subtitle -->
+        <div class="welcome-action space-y-2">
+          <p class="text-xl sm:text-2xl font-serif text-amber-200 flex items-center justify-center gap-2">
+            <span>Tap to open</span>
+          </p>
+        </div>
+
+        <!-- Revealed Premium Portrait Card -->
+        <div id="portrait-card"
+          class="portrait-card opacity-0 pointer-events-none scale-0 absolute z-30 flex flex-col items-center max-w-sm sm:max-w-md p-6 rounded-[24px] bg-white/10 backdrop-blur-xl border-2 border-gold-400/60 shadow-[0_0_50px_rgba(255,215,0,0.35)] text-center space-y-4 transform-preserve-3d">
+          <!-- Image Container with Golden Glow -->
+          <div
+            class="relative w-48 h-60 sm:w-56 sm:h-72 rounded-2xl overflow-hidden border border-gold-300/40 shadow-xl mx-auto">
+            <img id="portrait-img" src="/assets/images/photo1.jpg" alt="Birthday Portrait"
+              class="w-full h-full object-cover transform transition-transform duration-700 hover:scale-105" />
+            <div class="absolute inset-0 bg-gradient-to-t from-dark-base/80 via-transparent to-transparent"></div>
+          </div>
+
+          <!-- Text Content -->
+          <div class="portrait-content space-y-2">
+            <h2
+              class="text-3xl sm:text-4xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-300 to-amber-200">
+              Happy Birthday
+            </h2>
+            <p class="text-2xl sm:text-3xl font-serif font-semibold text-gold-300">
+              <span class="recipient-name">Raksha</span> ❤️
+            </p>
+            <p id="portrait-quote"
+              class="text-sm sm:text-base text-purple-100/90 font-light italic max-w-xs mx-auto leading-relaxed pt-2 border-t border-white/10">
+              <!-- Populated dynamically from CONFIG -->
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Placeholder for Stage 2 (Cake), Stage 3 (Memories), Stage 4 (Letter) -->
+    <!-- STAGE 2: INTERACTIVE BIRTHDAY CAKE SECTION -->
+    <section id="stage-cake"
+      class="stage-section hidden min-h-screen w-full flex-col items-center justify-center px-4 py-8 text-center relative overflow-hidden">
+
+      <!-- Ambient Glow & Rays -->
+      <div id="cake-ambient-glow"
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-amber-500/10 blur-[120px] pointer-events-none transition-all duration-1000">
+      </div>
+      <div id="cake-light-rays"
+        class="absolute inset-0 bg-gradient-to-t from-amber-400/0 via-gold-400/20 to-transparent blur-3xl opacity-0 transition-opacity duration-1000 pointer-events-none">
+      </div>
+
+      <!-- Stage 2 Header & Progress -->
+      <div id="cake-header-container"
+        class="relative z-20 flex flex-col items-center max-w-lg mx-auto space-y-3 mb-6 transition-all duration-700">
+        <span
+          class="inline-block text-xs uppercase tracking-[0.25em] text-gold-400 font-semibold px-4 py-1 rounded-full bg-gold-400/10 border border-gold-400/20 backdrop-blur-sm">
+          Stage 2: Birthday Wish
+        </span>
+        <h2 id="cake-title"
+          class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-300 to-amber-200">
+          Blow out the candles
+        </h2>
+
+        <div class="flex items-center justify-center pt-1">
+          <!-- Candle Progress Badge -->
+          <div id="candle-progress-badge"
+            class="px-5 py-1.5 rounded-full bg-white/10 border border-amber-400/30 text-gold-300 font-mono text-sm font-semibold tracking-wider shadow-md backdrop-blur-md">
+            0 / 5 Candles
+          </div>
+        </div>
+
+        <p id="cake-guidance-text" class="text-sm text-purple-200/80 italic pt-1">
+          Tap the highlighted candle to blow it out ✨
+        </p>
+      </div>
+
+      <!-- Main Cake Interactive Container -->
+      <div id="cake-wrapper"
+        class="relative z-20 my-4 gift-wrapper flex flex-col items-center justify-center cursor-default">
+
+        <!-- 3-Tier SVG & CSS Birthday Cake -->
+        <div id="cake-3d"
+          class="relative w-72 sm:w-80 h-80 flex flex-col items-center justify-end transform-preserve-3d transition-transform duration-700">
+
+          <!-- Piped Icing Cake Message on Top Tier -->
+          <div id="cake-icing-message"
+            class="absolute top-7 inset-x-0 z-25 text-center font-handwriting text-base sm:text-lg text-white font-bold tracking-wide pointer-events-none select-none opacity-0">
+            🎂 Happy Birthday Honey ❤️
+          </div>
+
+          <!-- 5 CANDLES ATOP TOP TIER -->
+          <div id="candles-container"
+            class="absolute top-2 left-1/2 -translate-x-1/2 w-56 h-24 z-30 flex justify-between items-end px-2">
+
+            <!-- Candle 0 (1st) -->
+            <div id="candle-0" class="candle-item relative flex flex-col items-center cursor-pointer group"
+              role="button" tabindex="0" aria-label="Candle 1 of 5">
+              <div class="active-guide-indicator absolute -top-8 text-gold-300 text-xs font-semibold animate-bounce">👆
+              </div>
+              <div class="candle-flame-container relative w-6 h-8 flex justify-center items-center">
+                <div
+                  class="candle-smoke absolute bottom-0 w-3 h-8 bg-gray-300/40 rounded-full blur-sm opacity-0 pointer-events-none">
+                </div>
+                <div class="candle-glow absolute inset-0 bg-amber-400/50 rounded-full blur-md animate-pulse"></div>
+                <svg class="candle-flame w-5 h-7 transform origin-bottom transition-transform" viewBox="0 0 20 30">
+                  <path d="M10,0 C15,10 18,18 10,30 C2,18 5,10 10,0 Z" fill="url(#flame-grad)" />
+                  <path d="M10,8 C13,14 14,20 10,28 C6,20 7,14 10,8 Z" fill="#ffffff" opacity="0.9" />
+                </svg>
+              </div>
+              <div class="candle-wick w-0.5 h-2 bg-gray-700"></div>
+              <div
+                class="candle-wax w-3.5 h-12 rounded-t-sm bg-gradient-to-b from-pink-300 via-pink-400 to-pink-500 shadow-md border-x border-white/30 relative overflow-hidden">
+                <div class="absolute inset-x-0 top-0 h-1.5 bg-white/40 rounded-full"></div>
+              </div>
+            </div>
+
+            <!-- Candle 1 (2nd) -->
+            <div id="candle-1" class="candle-item relative flex flex-col items-center cursor-pointer group opacity-60"
+              role="button" tabindex="0" aria-label="Candle 2 of 5">
+              <div
+                class="active-guide-indicator absolute -top-8 text-gold-300 text-xs font-semibold animate-bounce hidden">
+                👆</div>
+              <div class="candle-flame-container relative w-6 h-8 flex justify-center items-center">
+                <div
+                  class="candle-smoke absolute bottom-0 w-3 h-8 bg-gray-300/40 rounded-full blur-sm opacity-0 pointer-events-none">
+                </div>
+                <div class="candle-glow absolute inset-0 bg-amber-400/50 rounded-full blur-md animate-pulse"></div>
+                <svg class="candle-flame w-5 h-7 transform origin-bottom transition-transform" viewBox="0 0 20 30">
+                  <path d="M10,0 C15,10 18,18 10,30 C2,18 5,10 10,0 Z" fill="url(#flame-grad)" />
+                  <path d="M10,8 C13,14 14,20 10,28 C6,20 7,14 10,8 Z" fill="#ffffff" opacity="0.9" />
+                </svg>
+              </div>
+              <div class="candle-wick w-0.5 h-2 bg-gray-700"></div>
+              <div
+                class="candle-wax w-3.5 h-12 rounded-t-sm bg-gradient-to-b from-purple-300 via-purple-400 to-purple-500 shadow-md border-x border-white/30 relative overflow-hidden">
+                <div class="absolute inset-x-0 top-0 h-1.5 bg-white/40 rounded-full"></div>
+              </div>
+            </div>
+
+            <!-- Candle 2 (3rd) -->
+            <div id="candle-2" class="candle-item relative flex flex-col items-center cursor-pointer group opacity-60"
+              role="button" tabindex="0" aria-label="Candle 3 of 5">
+              <div
+                class="active-guide-indicator absolute -top-8 text-gold-300 text-xs font-semibold animate-bounce hidden">
+                👆</div>
+              <div class="candle-flame-container relative w-6 h-8 flex justify-center items-center">
+                <div
+                  class="candle-smoke absolute bottom-0 w-3 h-8 bg-gray-300/40 rounded-full blur-sm opacity-0 pointer-events-none">
+                </div>
+                <div class="candle-glow absolute inset-0 bg-amber-400/50 rounded-full blur-md animate-pulse"></div>
+                <svg class="candle-flame w-5 h-7 transform origin-bottom transition-transform" viewBox="0 0 20 30">
+                  <path d="M10,0 C15,10 18,18 10,30 C2,18 5,10 10,0 Z" fill="url(#flame-grad)" />
+                  <path d="M10,8 C13,14 14,20 10,28 C6,20 7,14 10,8 Z" fill="#ffffff" opacity="0.9" />
+                </svg>
+              </div>
+              <div class="candle-wick w-0.5 h-2 bg-gray-700"></div>
+              <div
+                class="candle-wax w-3.5 h-12 rounded-t-sm bg-gradient-to-b from-amber-300 via-amber-400 to-amber-500 shadow-md border-x border-white/30 relative overflow-hidden">
+                <div class="absolute inset-x-0 top-0 h-1.5 bg-white/40 rounded-full"></div>
+              </div>
+            </div>
+
+            <!-- Candle 3 (4th) -->
+            <div id="candle-3" class="candle-item relative flex flex-col items-center cursor-pointer group opacity-60"
+              role="button" tabindex="0" aria-label="Candle 4 of 5">
+              <div
+                class="active-guide-indicator absolute -top-8 text-gold-300 text-xs font-semibold animate-bounce hidden">
+                👆</div>
+              <div class="candle-flame-container relative w-6 h-8 flex justify-center items-center">
+                <div
+                  class="candle-smoke absolute bottom-0 w-3 h-8 bg-gray-300/40 rounded-full blur-sm opacity-0 pointer-events-none">
+                </div>
+                <div class="candle-glow absolute inset-0 bg-amber-400/50 rounded-full blur-md animate-pulse"></div>
+                <svg class="candle-flame w-5 h-7 transform origin-bottom transition-transform" viewBox="0 0 20 30">
+                  <path d="M10,0 C15,10 18,18 10,30 C2,18 5,10 10,0 Z" fill="url(#flame-grad)" />
+                  <path d="M10,8 C13,14 14,20 10,28 C6,20 7,14 10,8 Z" fill="#ffffff" opacity="0.9" />
+                </svg>
+              </div>
+              <div class="candle-wick w-0.5 h-2 bg-gray-700"></div>
+              <div
+                class="candle-wax w-3.5 h-12 rounded-t-sm bg-gradient-to-b from-rose-300 via-rose-400 to-rose-500 shadow-md border-x border-white/30 relative overflow-hidden">
+                <div class="absolute inset-x-0 top-0 h-1.5 bg-white/40 rounded-full"></div>
+              </div>
+            </div>
+
+            <!-- Candle 4 (5th) -->
+            <div id="candle-4" class="candle-item relative flex flex-col items-center cursor-pointer group opacity-60"
+              role="button" tabindex="0" aria-label="Candle 5 of 5">
+              <div
+                class="active-guide-indicator absolute -top-8 text-gold-300 text-xs font-semibold animate-bounce hidden">
+                👆</div>
+              <div class="candle-flame-container relative w-6 h-8 flex justify-center items-center">
+                <div
+                  class="candle-smoke absolute bottom-0 w-3 h-8 bg-gray-300/40 rounded-full blur-sm opacity-0 pointer-events-none">
+                </div>
+                <div class="candle-glow absolute inset-0 bg-amber-400/50 rounded-full blur-md animate-pulse"></div>
+                <svg class="candle-flame w-5 h-7 transform origin-bottom transition-transform" viewBox="0 0 20 30">
+                  <path d="M10,0 C15,10 18,18 10,30 C2,18 5,10 10,0 Z" fill="url(#flame-grad)" />
+                  <path d="M10,8 C13,14 14,20 10,28 C6,20 7,14 10,8 Z" fill="#ffffff" opacity="0.9" />
+                </svg>
+              </div>
+              <div class="candle-wick w-0.5 h-2 bg-gray-700"></div>
+              <div
+                class="candle-wax w-3.5 h-12 rounded-t-sm bg-gradient-to-b from-teal-300 via-teal-400 to-teal-500 shadow-md border-x border-white/30 relative overflow-hidden">
+                <div class="absolute inset-x-0 top-0 h-1.5 bg-white/40 rounded-full"></div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Shared SVG Gradient Definitions -->
+          <svg class="absolute w-0 h-0 pointer-events-none">
+            <defs>
+              <linearGradient id="flame-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" />
+                <stop offset="25%" stop-color="#fef08a" />
+                <stop offset="60%" stop-color="#f59e0b" />
+                <stop offset="100%" stop-color="#ef4444" />
+              </linearGradient>
+              <linearGradient id="icing-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#fff1f2" />
+                <stop offset="50%" stop-color="#fde68a" stop-opacity="0.95" />
+                <stop offset="100%" stop-color="#f472b6" />
+              </linearGradient>
+            </defs>
+          </svg>
+
+          <!-- TOP TIER -->
+          <div
+            class="tier-top relative w-48 h-16 bg-gradient-to-b from-amber-800 via-pink-900 to-purple-950 rounded-t-2xl shadow-xl border-x border-t border-gold-400/40 z-20 flex flex-col justify-between overflow-hidden">
+            <!-- Dripping SVG Icing -->
+            <svg class="w-full h-8 absolute top-0 left-0 z-10" viewBox="0 0 200 40" preserveAspectRatio="none">
+              <path
+                d="M0,0 L200,0 L200,15 C180,28 165,10 150,22 C135,32 120,12 100,25 C80,35 65,15 50,25 C35,32 20,10 0,20 Z"
+                fill="url(#icing-grad)" />
+            </svg>
+            <!-- Gold Edible Pearls -->
+            <div class="absolute bottom-1 left-0 right-0 flex justify-between px-3 z-10">
+              <span class="w-2 h-2 rounded-full bg-gold-300 shadow-md"></span>
+              <span class="w-2 h-2 rounded-full bg-gold-400 shadow-md"></span>
+              <span class="w-2 h-2 rounded-full bg-gold-300 shadow-md"></span>
+              <span class="w-2 h-2 rounded-full bg-gold-400 shadow-md"></span>
+              <span class="w-2 h-2 rounded-full bg-gold-300 shadow-md"></span>
+              <span class="w-2 h-2 rounded-full bg-gold-400 shadow-md"></span>
+            </div>
+          </div>
+
+          <!-- MIDDLE TIER -->
+          <div
+            class="tier-mid relative w-64 h-20 bg-gradient-to-b from-purple-900 via-purple-950 to-dark-card rounded-t-2xl shadow-2xl border-x border-t border-gold-400/40 z-15 flex flex-col justify-between overflow-hidden -mt-2">
+            <!-- Dripping SVG Icing -->
+            <svg class="w-full h-10 absolute top-0 left-0 z-10" viewBox="0 0 260 45" preserveAspectRatio="none">
+              <path
+                d="M0,0 L260,0 L260,18 C240,32 220,12 200,28 C180,40 160,15 130,30 C100,42 80,18 60,32 C40,42 20,15 0,25 Z"
+                fill="url(#icing-grad)" />
+            </svg>
+            <!-- Gold Edible Pearls -->
+            <div class="absolute bottom-1 left-0 right-0 flex justify-between px-4 z-10">
+              <span class="w-2.5 h-2.5 rounded-full bg-gold-400 shadow-md"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-gold-300 shadow-md"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-gold-400 shadow-md"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-gold-300 shadow-md"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-gold-400 shadow-md"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-gold-300 shadow-md"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-gold-400 shadow-md"></span>
+            </div>
+          </div>
+
+          <!-- BOTTOM TIER -->
+          <div
+            class="tier-bot relative w-80 sm:w-88 h-24 bg-gradient-to-b from-amber-900 via-dark-card to-dark-base rounded-t-3xl shadow-2xl border-x border-t border-gold-400/40 z-10 flex flex-col justify-between overflow-hidden -mt-2">
+            <!-- Dripping SVG Icing -->
+            <svg class="w-full h-12 absolute top-0 left-0 z-10" viewBox="0 0 320 50" preserveAspectRatio="none">
+              <path
+                d="M0,0 L320,0 L320,20 C290,38 260,15 230,35 C200,48 170,18 140,38 C110,48 80,20 50,38 C25,48 10,18 0,28 Z"
+                fill="url(#icing-grad)" />
+            </svg>
+            <!-- Decorative Cream Swirls -->
+            <div class="absolute bottom-1 left-0 right-0 flex justify-between px-5 z-10">
+              <span class="w-3 h-3 rounded-full bg-amber-100 shadow-md"></span>
+              <span class="w-3 h-3 rounded-full bg-gold-300 shadow-md"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-100 shadow-md"></span>
+              <span class="w-3 h-3 rounded-full bg-gold-300 shadow-md"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-100 shadow-md"></span>
+              <span class="w-3 h-3 rounded-full bg-gold-300 shadow-md"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-100 shadow-md"></span>
+              <span class="w-3 h-3 rounded-full bg-gold-300 shadow-md"></span>
+            </div>
+          </div>
+
+          <!-- CAKE PLATE & SOFT SHADOW -->
+          <div
+            class="cake-plate relative w-96 h-6 bg-gradient-to-r from-amber-200 via-gold-400 to-amber-300 rounded-full border border-gold-200/60 shadow-2xl z-0 -mt-2 flex items-center justify-center">
+            <div class="w-full h-full rounded-full bg-white/20 blur-xs"></div>
+          </div>
+          <div class="cake-shadow w-80 h-8 rounded-full bg-black/60 blur-md -mt-4"></div>
+
+        </div>
+      </div>
+
+      <!-- REVEALED FINAL MESSAGE BANNER (After all 5 candles extinguished) -->
+      <div id="wish-banner-container"
+        class="opacity-0 pointer-events-none scale-90 absolute z-40 flex flex-col items-center space-y-3 text-center max-w-xl mx-auto px-4 transition-all duration-1000">
+        <h2
+          class="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-300 to-amber-200 drop-shadow-md leading-tight">
+          Before we continue...
+        </h2>
+        <p
+          class="text-2xl sm:text-3xl md:text-4xl font-serif font-semibold text-gold-300 drop-shadow-sm flex items-center justify-center gap-2">
+          there's something I want to show you. ❤️
+        </p>
+      </div>
+
+    </section>
+    <!-- STAGE 3: OUR JOURNEY MEMORY FILM SECTION -->
+    <section id="stage-memories"
+      class="stage-section hidden min-h-screen w-full flex-col items-center justify-center px-4 py-8 text-center relative overflow-hidden">
+
+      <!-- Stage 3 Ambient Lighting & Ray Overlay -->
+      <div id="memories-ambient-glow"
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-purple-900/20 blur-[140px] pointer-events-none transition-all duration-1000">
+      </div>
+
+      <!-- Intro Title Container -->
+      <div id="memories-intro-banner"
+        class="opacity-0 pointer-events-none absolute z-40 flex flex-col items-center space-y-3 text-center max-w-xl mx-auto px-4">
+        <h2
+          class="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-300 to-amber-200 drop-shadow-md">
+          Our Journey ❤️
+        </h2>
+        <p class="text-lg sm:text-xl md:text-2xl text-purple-200/90 font-light italic">
+          Every picture holds a memory...
+        </p>
+      </div>
+
+      <!-- Main Polaroid Stage Container -->
+      <div id="memories-stage-wrapper"
+        class="relative z-20 w-full max-w-4xl h-[520px] sm:h-[580px] flex flex-col items-center justify-center pointer-events-none">
+
+        <!-- Polaroid Photo Cards (Photos 2 to 6) -->
+        <div id="polaroid-container"
+          class="relative w-full h-full flex items-center justify-center transform-preserve-3d">
+
+          <!-- Polaroid 0: photo2.jpg -->
+          <div id="polaroid-0"
+            class="polaroid-card opacity-0 scale-75 absolute z-20 flex flex-col items-center p-4 sm:p-5 rounded-2xl bg-white/95 backdrop-blur-md shadow-[0_15px_35px_rgba(0,0,0,0.5)] border border-white/60 text-dark-base max-w-[280px] sm:max-w-[340px] transform-preserve-3d">
+            <div class="relative w-60 sm:w-72 h-60 sm:h-72 rounded-lg overflow-hidden bg-gray-900 shadow-inner">
+              <img src="/assets/images/photo2.jpg" alt="Memory Photo 2" class="w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-tr from-amber-500/10 to-transparent pointer-events-none">
+              </div>
+            </div>
+            <div
+              class="polaroid-caption mt-3 font-serif italic text-dark-base/90 text-sm sm:text-base px-2 min-h-[44px] flex items-center justify-center text-center">
+              <span class="caption-text"></span><span class="typewriter-cursor text-gold-600 font-normal">|</span>
+            </div>
+          </div>
+
+          <!-- Polaroid 1: photo3.jpg -->
+          <div id="polaroid-1"
+            class="polaroid-card opacity-0 scale-75 absolute z-20 flex flex-col items-center p-4 sm:p-5 rounded-2xl bg-white/95 backdrop-blur-md shadow-[0_15px_35px_rgba(0,0,0,0.5)] border border-white/60 text-dark-base max-w-[280px] sm:max-w-[340px] transform-preserve-3d">
+            <div class="relative w-60 sm:w-72 h-60 sm:h-72 rounded-lg overflow-hidden bg-gray-900 shadow-inner">
+              <img src="/assets/images/photo3.jpg" alt="Memory Photo 3" class="w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-tr from-amber-500/10 to-transparent pointer-events-none">
+              </div>
+            </div>
+            <div
+              class="polaroid-caption mt-3 font-serif italic text-dark-base/90 text-sm sm:text-base px-2 min-h-[44px] flex items-center justify-center text-center">
+              <span class="caption-text"></span><span class="typewriter-cursor text-gold-600 font-normal">|</span>
+            </div>
+          </div>
+
+          <!-- Polaroid 2: photo4.jpg -->
+          <div id="polaroid-2"
+            class="polaroid-card opacity-0 scale-75 absolute z-20 flex flex-col items-center p-4 sm:p-5 rounded-2xl bg-white/95 backdrop-blur-md shadow-[0_15px_35px_rgba(0,0,0,0.5)] border border-white/60 text-dark-base max-w-[280px] sm:max-w-[340px] transform-preserve-3d">
+            <div class="relative w-60 sm:w-72 h-60 sm:h-72 rounded-lg overflow-hidden bg-gray-900 shadow-inner">
+              <img src="/assets/images/photo4.jpg" alt="Memory Photo 4" class="w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-tr from-amber-500/10 to-transparent pointer-events-none">
+              </div>
+            </div>
+            <div
+              class="polaroid-caption mt-3 font-serif italic text-dark-base/90 text-sm sm:text-base px-2 min-h-[44px] flex items-center justify-center text-center">
+              <span class="caption-text"></span><span class="typewriter-cursor text-gold-600 font-normal">|</span>
+            </div>
+          </div>
+
+          <!-- Polaroid 3: photo5.jpg -->
+          <div id="polaroid-3"
+            class="polaroid-card opacity-0 scale-75 absolute z-20 flex flex-col items-center p-4 sm:p-5 rounded-2xl bg-white/95 backdrop-blur-md shadow-[0_15px_35px_rgba(0,0,0,0.5)] border border-white/60 text-dark-base max-w-[280px] sm:max-w-[340px] transform-preserve-3d">
+            <div class="relative w-60 sm:w-72 h-60 sm:h-72 rounded-lg overflow-hidden bg-gray-900 shadow-inner">
+              <img src="/assets/images/photo5.jpg" alt="Memory Photo 5" class="w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-tr from-amber-500/10 to-transparent pointer-events-none">
+              </div>
+            </div>
+            <div
+              class="polaroid-caption mt-3 font-serif italic text-dark-base/90 text-sm sm:text-base px-2 min-h-[44px] flex items-center justify-center text-center">
+              <span class="caption-text"></span><span class="typewriter-cursor text-gold-600 font-normal">|</span>
+            </div>
+          </div>
+
+          <!-- Polaroid 4: photo6.jpg -->
+          <div id="polaroid-4"
+            class="polaroid-card opacity-0 scale-75 absolute z-20 flex flex-col items-center p-4 sm:p-5 rounded-2xl bg-white/95 backdrop-blur-md shadow-[0_15px_35px_rgba(0,0,0,0.5)] border border-white/60 text-dark-base max-w-[280px] sm:max-w-[340px] transform-preserve-3d">
+            <div class="relative w-60 sm:w-72 h-60 sm:h-72 rounded-lg overflow-hidden bg-gray-900 shadow-inner">
+              <img src="/assets/images/photo6.jpg" alt="Memory Photo 6" class="w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-tr from-amber-500/10 to-transparent pointer-events-none">
+              </div>
+            </div>
+            <div
+              class="polaroid-caption mt-3 font-serif italic text-dark-base/90 text-sm sm:text-base px-2 min-h-[44px] flex items-center justify-center text-center">
+              <span class="caption-text"></span><span class="typewriter-cursor text-gold-600 font-normal">|</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Final Message Banner (Post Heart Transformation) -->
+      <div id="memories-final-banner"
+        class="opacity-0 pointer-events-none scale-90 absolute z-40 flex flex-col items-center space-y-3 text-center max-w-xl mx-auto px-6 py-4 rounded-2xl bg-dark-base/60 backdrop-blur-md border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.7)] transition-all duration-1000">
+        <h3 class="text-2xl sm:text-3xl font-serif text-purple-200/90 italic">
+          Every picture holds a memory...
+        </h3>
+        <p
+          class="text-3xl sm:text-4xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-300 to-amber-200 drop-shadow-md leading-tight">
+          But my favorite part is that we created them together. ❤️
+        </p>
+      </div>
+
+      <!-- Luxury Envelope Target Container for Stage 4 Transition -->
+      <div id="envelope-transition-target"
+        class="opacity-0 pointer-events-none scale-50 absolute z-30 flex items-center justify-center w-64 h-44 sm:w-80 sm:h-52 rounded-2xl bg-gradient-to-r from-amber-700 via-amber-800 to-amber-900 border-2 border-gold-400/60 shadow-[0_0_60px_rgba(255,215,0,0.4)] transform-preserve-3d">
+        <div class="relative w-full h-full flex items-center justify-center">
+          <div
+            class="w-12 h-12 rounded-full bg-red-700 border-2 border-amber-300 flex items-center justify-center shadow-lg text-gold-300 text-xl font-bold">
+            ❤️
+          </div>
+        </div>
+      </div>
+
+    </section>
+    <!-- STAGE 4: LETTER & GRAND FINALE SECTION -->
+    <section id="stage-letter"
+      class="stage-section hidden min-h-screen w-full flex-col items-center justify-center px-4 py-8 text-center relative overflow-hidden">
+
+      <!-- Stage 4 Ambient Lighting & Ray Overlay -->
+      <div id="letter-ambient-glow"
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] rounded-full bg-amber-500/15 blur-[150px] pointer-events-none transition-all duration-1000">
+      </div>
+
+      <!-- MAIN ENVELOPE & LETTER INTERACTIVE WRAPPER -->
+      <div id="letter-wrapper"
+        class="relative z-20 flex flex-col items-center justify-center max-w-5xl w-full mx-auto transform-preserve-3d my-4 px-4">
+
+        <!-- Envelope + Letter Side-by-Side Layout -->
+        <div id="letter-layout"
+          class="flex flex-col md:flex-row items-center md:items-start justify-center gap-6 md:gap-8 w-full">
+
+          <!-- Premium Luxury Envelope Container (left on desktop, top on mobile) -->
+          <div id="envelope-card"
+            class="relative shrink-0 w-64 sm:w-72 md:w-[28%] h-44 sm:h-52 md:h-56 rounded-2xl bg-gradient-to-br from-amber-100 via-amber-50 to-amber-200 border-2 border-gold-400/60 shadow-[0_20px_50px_rgba(0,0,0,0.6)] transform-preserve-3d flex flex-col items-center justify-center gift-wrapper">
+
+            <!-- Envelope 3D Top Flap -->
+            <div id="envelope-flap"
+              class="envelope-flap absolute top-0 inset-x-0 h-20 sm:h-24 md:h-28 bg-gradient-to-b from-amber-200 to-amber-300 rounded-t-2xl border-b border-amber-400/50 transform-preserve-3d origin-top z-30 flex items-end justify-center pb-2 shadow-md">
+              <!-- Wax Seal -->
+              <div id="wax-seal"
+                class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-red-700 via-red-800 to-red-950 border-2 border-gold-400 flex items-center justify-center shadow-xl text-gold-300 text-lg font-bold cursor-pointer hover:scale-105 transition-transform z-40">
+                ❤️
+              </div>
+            </div>
+
+            <!-- Envelope Pocket Front Layer -->
+            <div
+              class="absolute inset-0 rounded-2xl border-x border-b border-amber-300/60 pointer-events-none z-20 bg-gradient-to-t from-amber-200/90 via-transparent to-transparent">
+            </div>
+
+          </div>
+
+          <!-- Foldable Letter Paper — slides out beside envelope on desktop, below on mobile -->
+          <div id="letter-paper"
+            class="letter-paper opacity-0 w-full md:w-[65%] max-w-xl bg-[#fffdfa] text-dark-base rounded-xl p-5 sm:p-6 md:p-8 shadow-2xl border border-amber-300/80 font-serif transform-preserve-3d space-y-4 text-left leading-relaxed">
+            <div
+              class="w-full text-right text-xs sm:text-sm text-gold-700 italic font-mono pb-2 border-b border-amber-200">
+              With all my heart... ✨
+            </div>
+            <!-- Typewriter Message Body -->
+            <div id="letter-message-body"
+              class="text-sm sm:text-base md:text-lg text-dark-card font-serif italic min-h-[100px] sm:min-h-[120px] md:min-h-[140px] pt-2">
+              <span id="letter-text"></span><span id="letter-cursor"
+                class="typewriter-cursor text-gold-600 font-normal animate-pulse">|</span>
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+
+      <!-- FINAL CELEBRATION OVERLAY (Happy Birthday Raksha ❤️) -->
+      <div id="celebration-overlay"
+        class="opacity-0 pointer-events-none scale-90 absolute z-40 flex flex-col items-center space-y-4 text-center max-w-2xl mx-auto px-4 transition-all duration-1000">
+        <h2
+          class="text-4xl sm:text-5xl md:text-6xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-300 to-amber-200 drop-shadow-lg animate-pulse">
+          🎉 Happy Birthday <span class="recipient-name">Raksha</span> ❤️
+        </h2>
+      </div>
+
+      <!-- HIDDEN SURPRISE GLOWING HEART (Appears ~5s after celebration) — bottom-right -->
+      <div id="surprise-heart-trigger"
+        class="opacity-0 pointer-events-none absolute z-50 flex flex-col items-center space-y-3 cursor-pointer group transition-all duration-700"
+        style="bottom: 8vh; right: 6vw;">
+        <div id="surprise-heart"
+          class="filter drop-shadow-[0_0_50px_rgba(239,68,68,0.9)] animate-pulse hover:scale-110 transition-transform"
+          style="font-size: 6rem; line-height: 1;">
+          ❤️
+        </div>
+        <p
+          class="text-lg sm:text-xl font-serif text-gold-300 italic tracking-wide group-hover:text-white transition-colors drop-shadow-md">
+          Tap the Heart ❤️
+        </p>
+      </div>
+
+      <!-- HIDDEN ROMANTIC REVEAL MESSAGE (Multi-line fade-in) -->
+      <div id="romantic-reveal-container"
+        class="opacity-0 pointer-events-none absolute z-40 flex flex-col items-center space-y-4 text-center max-w-2xl mx-auto px-6 py-8 rounded-3xl bg-dark-base/80 backdrop-blur-xl border border-gold-400/40 shadow-[0_0_80px_rgba(255,215,0,0.35)] transition-all duration-1000">
+
+        <p id="line-1"
+          class="reveal-line opacity-0 text-xl sm:text-2xl font-serif font-bold text-gold-300 drop-shadow-md">
+          I'm really in love with you. ❤️
+        </p>
+
+        <p id="line-2"
+          class="reveal-line opacity-0 text-2xl sm:text-3xl font-serif font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-100 via-gold-300 to-amber-200 drop-shadow-lg">
+          Happy Birthday, Marshmallow! ❤️🫶
+        </p>
+
+        <p id="line-3"
+          class="reveal-line opacity-0 text-base sm:text-lg sm:text-xl font-serif italic text-purple-100/90 max-w-xl mx-auto leading-relaxed">
+          I'll keep waiting for the day I get to stay by your side forever... ❤️
+        </p>
+
+        <p id="line-4" class="reveal-line opacity-0 text-lg sm:text-xl font-serif font-semibold text-gold-400 pt-2">
+          Only if your heart chooses me. 🫶
+        </p>
+
+        <!-- Relive Our Journey Restart Button -->
+        <button id="relive-journey-btn" aria-label="Relive Our Journey"
+          class="opacity-0 pointer-events-none mt-6 px-8 py-3 rounded-full bg-gradient-to-r from-gold-500 via-amber-400 to-gold-600 text-dark-base font-bold text-base sm:text-lg shadow-[0_10px_30px_rgba(234,179,8,0.5)] hover:scale-105 active:scale-95 transition-all duration-300 flex items-center justify-center gap-2 mx-auto">
+          <span>❤️ Relive Our Journey</span>
+        </button>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ES Module Script -->
+  <script type="module" src="./js/main.js"></script>
+</body>
+
+</html>

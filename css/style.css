@@ -1,0 +1,274 @@
+/* Modern Luxury CSS System */
+
+@layer base {
+  :root {
+    --bg-dark: #080511;
+    --gold-glow: rgba(255, 215, 0, 0.4);
+    --amber-glow: rgba(251, 191, 36, 0.3);
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--bg-dark);
+    color: #ffffff;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* 3D Transforms Utility */
+.transform-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Breathing floating effect for gift box */
+@keyframes floatBox {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 15px rgba(234, 179, 8, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 35px rgba(255, 215, 0, 0.7));
+  }
+}
+
+.gift-wrapper {
+  animation: floatBox 4s ease-in-out infinite;
+  perspective: 1000px;
+}
+
+.gift-box {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+.gift-wrapper:hover {
+  animation-play-state: paused;
+}
+
+.gift-wrapper:hover .gift-box {
+  transform: scale(1.05) translateY(-5px);
+}
+
+/* Portrait Card subtle floating animation */
+@keyframes floatPortrait {
+  0%, 100% {
+    transform: translateY(0px) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.portrait-card-floating {
+  animation: floatPortrait 4s ease-in-out infinite;
+}
+
+/* Candle Flame Flickering & Glow Animations */
+@keyframes flameFlicker {
+  0%, 100% {
+    transform: scale(1) rotate(-1deg);
+    filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.9));
+  }
+  25% {
+    transform: scale(1.08, 0.94) rotate(2deg);
+    filter: drop-shadow(0 0 12px rgba(255, 215, 0, 1));
+  }
+  50% {
+    transform: scale(0.95, 1.05) rotate(-2deg);
+    filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.8));
+  }
+  75% {
+    transform: scale(1.05, 0.98) rotate(1deg);
+    filter: drop-shadow(0 0 14px rgba(251, 191, 36, 1));
+  }
+}
+
+.candle-flame {
+  animation: flameFlicker 1.8s ease-in-out infinite;
+}
+
+/* Active Candle Ring & Guidance Glow */
+.candle-item {
+  padding: 4px 6px;
+  touch-action: manipulation;
+  cursor: pointer;
+  pointer-events: auto !important;
+}
+
+.candle-item * {
+  pointer-events: auto;
+}
+
+.candle-item.active-candle {
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.8));
+}
+
+.candle-item.active-candle .active-guide-indicator {
+  display: block !important;
+}
+
+.candle-item.extinguished {
+  opacity: 0.45 !important;
+  pointer-events: none !important;
+}
+
+.candle-item:focus-visible {
+  outline: 2px solid #facc15;
+  outline-offset: 6px;
+  border-radius: 8px;
+}
+
+/* Piped Icing Message on Cake */
+#cake-icing-message {
+  font-family: 'Great Vibes', cursive, serif;
+  text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.9);
+  letter-spacing: 0.05em;
+}
+
+/* Polaroid Card Glassmorphic Styling & Shadow */
+.polaroid-card {
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 215, 0, 0.25);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+@keyframes floatPolaroid {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+}
+
+.polaroid-floating {
+  animation: floatPolaroid 5s ease-in-out infinite;
+}
+
+/* Envelope 3D Flap styling */
+.envelope-flap {
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transform-style: preserve-3d;
+}
+
+/* Cream paper subtle texture */
+.letter-paper {
+  background-image: radial-gradient(#f3f4f6 0.5px, transparent 0.5px), radial-gradient(#f3f4f6 0.5px, #fffdfa 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* Radial gradient background helper */
+.bg-gradient-radial {
+  background-image: radial-gradient(circle, var(--tw-gradient-stops));
+}
+
+/* Stage Transitions */
+.stage-section {
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stage-section.hidden {
+  display: none !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.stage-section.active {
+  display: flex !important;
+  opacity: 1;
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Audio control focus state */
+.audio-control-btn:focus-visible {
+  outline: 2px solid #facc15;
+  outline-offset: 4px;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #080511;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a1b4e;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b2868;
+}
+
+/* Prefers Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .gift-wrapper, .sparkle {
+    animation: none !important;
+  }
+  .stage-section {
+    transition: opacity 0.3s ease !important;
+  }
+}
+
+/* Surprise Heart Floating & Heartbeat Animation */
+@keyframes heartFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes heartBeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  14% {
+    transform: scale(1.15);
+  }
+  28% {
+    transform: scale(1);
+  }
+  42% {
+    transform: scale(1.08);
+  }
+  56% {
+    transform: scale(1);
+  }
+}
+
+#surprise-heart-trigger {
+  animation: heartFloat 3.5s ease-in-out infinite;
+}
+
+#surprise-heart {
+  animation: heartBeat 1.8s ease-in-out infinite;
+  min-width: 80px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,22 @@
+{
+  "name": "bday",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@studio-freight/lenis": "^1.0.42",
+    "canvas-confetti": "^1.9.4",
+    "gsap": "^3.15.0",
+    "lucide": "^1.28.0",
+    "split-type": "^0.3.4"
+  },
+  "devDependencies": {
+    "vite": "^8.2.0"
+  }
+}
