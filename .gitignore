@@ -1,0 +1,9 @@
+node_modules/
+venv/
+dist/
+.env
+.vscode/
+.DS_Store
+
+
+prompt.md
